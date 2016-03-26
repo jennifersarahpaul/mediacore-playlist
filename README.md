@@ -12,4 +12,4 @@ When the current video finishes playing, the next video is loaded and begins pla
 
 - [Player.js](https://github.com/embedly/player.js)
 - [MediaCore Media Library](https://riipen.mediacore.tv)
-- [MediaCode APIv2 Documentation](http://developers.mediacore.com/docs/media/items.html)
+- [MediaCore APIv2 Documentation](http://developers.mediacore.com/docs/media/items.html)
