@@ -3,30 +3,14 @@ $(document).ready(function() {
   var playlist = [];
   var currentIndex = 0;
 
-  // var buttonPushed = function() {
-  //   var backButton = $("#back-button"); 
-  //   var skipButton = $("#skip-button");
-  //   button.on('click', function() {
-  //     if button == backButton {
-  //       // DO STUFF TO LOAD PREVIOUS VIDEO
-  //       // play(currentIndex - 1);
-  //     } else {
-  //       // DO STUFF TO LOAD NEXT VIDEO
-  //       // play(currentIndex + 1);
-  //     }
-  //   }); 
-  // }
-
-  var currentVideo = function(currentIndex) {
-    
-    // embeds the video into the <iframe>; video starts playing
+  // embeds the video into the <iframe>; video starts playing
+  function currentVideo(currentIndex) {
     var iframe = $("iframe")[0];
     iframe.src = "https://riipen.mediacore.tv/media/id:" + playlist[currentIndex][0] + "/embed_player";
     var player = new playerjs.Player(iframe);
     $("#title").text(playlist[currentIndex][1])
     $("#description").text(playlist[currentIndex][2])
     player.play();
-
     // automatically plays the next video after the current video has ended
     player.on('ended', function(){
       currentIndex += 1;
@@ -37,6 +21,26 @@ $(document).ready(function() {
       }
     });
   }
+
+  // back button goes to previous video
+  $("#back-button").on('click', function() {
+    if (currentIndex == 0) {
+      alert("The current video is the first video");
+    } else {
+      currentIndex -= 1; 
+      currentVideo(currentIndex);
+    }
+  });
+
+  // skip button goes to next video
+  $("#skip-button").on('click', function() {
+    if (currentIndex == playlist.length - 1) {
+      alert("The current video is the last video");
+    } else {
+      currentIndex += 1; 
+      currentVideo(currentIndex);
+    }
+  });
 
   // ajax call to obtain json data and to push video information into an array
   $.ajax({
@@ -65,5 +69,4 @@ $(document).ready(function() {
       alert("Error: " + err);
     }, 
   });
-
 });
