@@ -18,34 +18,24 @@ $(document).ready(function() {
   // }
 
   var currentVideo = function(currentIndex) {
-      // DO: 
-      // - LOAD CURRENT VIDEO
-      // - SHOW TITLE
-      // - SHOW DESCRIPTION
-      // - Update the playlist array to add the video
-      // - update the current index for the buttons
+    
+    // embeds the video into the <iframe>; video starts playing
+    var iframe = $("iframe")[0];
+    iframe.src = "https://riipen.mediacore.tv/media/id:" + playlist[currentIndex][0] + "/embed_player";
+    var player = new playerjs.Player(iframe);
+    $("#title").text(playlist[currentIndex][1])
+    $("#description").text(playlist[currentIndex][2])
+    player.play();
 
-        var iframe = $("iframe")[0];
-        iframe.src = "https://riipen.mediacore.tv/media/id:" + playlist[currentIndex][0] + "/embed_player";
-        var player = new playerjs.Player(iframe);
-        //make sure the player is ready and start playing
-        $("#title").text(playlist[currentIndex][1])
-        $("#description").text(playlist[currentIndex][2])
-        player.play();
-        
-    // plays the video automatically
-    // player.on('ready', function(){
-    //   player.on('play', function(){
-    //     console.log('play');
-    //   });
-    //   player.getDuration(function(duration){
-    //     console.log(duration);
-    //   });
-    //   if (player.supports('method', 'mute')){
-    //     player.mute();
-    //   }
-    //   player.play();
-    // });
+    // automatically plays the next video after the current video has ended
+    player.on('ended', function(){
+      currentIndex += 1;
+      if (currentIndex < playlist.length) {
+        currentVideo(currentIndex);
+      } else {
+        console.log("That was the last video; press the back button or refresh the page to start at the beginning again.");
+      }
+    });
   }
 
   // ajax call to obtain json data and to push video information into an array
@@ -75,4 +65,5 @@ $(document).ready(function() {
       alert("Error: " + err);
     }, 
   });
+
 });
